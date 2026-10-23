@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="112" height="112" viewBox="0 0 112 112" role="img" aria-labelledby="title desc">
+<title id="title">LineSight</title><desc id="desc">An inspection frame with a scan line and a teal signal.</desc>
+<rect width="112" height="112" rx="25" fill="#112c3a"/>
+<g fill="none" stroke="#eaf4f3" stroke-width="6" stroke-linecap="round"><path d="M27 43V28h17M68 28h17v15M85 69v15H68M44 84H27V69"/></g>
+<path d="M22 56h68" stroke="#48d4bd" stroke-width="4" stroke-linecap="round"/><circle cx="66" cy="56" r="10" fill="#48d4bd"/><circle cx="66" cy="56" r="4" fill="#112c3a"/>
+</svg>

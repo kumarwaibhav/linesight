@@ -1,0 +1,223 @@
+{
+  "auroc": 0.9468253968253968,
+  "average_precision": 0.9818700739528128,
+  "precision": 0.9636363636363636,
+  "recall": 0.8412698412698413,
+  "f1": 0.8983050847457628,
+  "accuracy": 0.8554216867469879,
+  "false_positive_rate": 0.1,
+  "confusion_matrix": [
+    [
+      18,
+      2
+    ],
+    [
+      10,
+      53
+    ]
+  ],
+  "confusion_labels": [
+    "normal",
+    "defect"
+  ],
+  "threshold": 0.73856190923971,
+  "model_version": "ls-a5006862e1ce",
+  "selected_candidate": "patch_if_max",
+  "artifact_sha256": "a9bf20738513ec6a6e2aa57c7c06d4ae8509070596b83708dd9f8de7b9fc1b87",
+  "dataset": "MVTec AD bottle, official test split",
+  "test_count": 83,
+  "test_normal_count": 20,
+  "test_defect_count": 63,
+  "positive_class": "defect",
+  "score_direction": "higher is more anomalous",
+  "score_is_probability": false,
+  "model_frozen_before_test": true,
+  "selection_and_calibration_use_real_test": false,
+  "latency_ms": {
+    "p50": 139.2137889999958,
+    "p95": 324.65972020006564,
+    "mean": 167.49739721685236,
+    "n": 83,
+    "batch_size": 1,
+    "warmup_count": 2,
+    "includes": "RGB resize, reference descriptors and forest score",
+    "excludes": "image decoding, upload, queue, SQLite, HTTP and camera capture",
+    "forest_threads": 1,
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+    "processor": "x86_64",
+    "hard_realtime_validated": false,
+    "features_p50": 69.29191799986256,
+    "forest_p50": 66.82772800013481
+  },
+  "uncertainty": {
+    "method": "class-stratified percentile bootstrap",
+    "replicates": 2000,
+    "seed": 2026,
+    "confidence_level": 0.95,
+    "intervals": {
+      "auroc": [
+        0.8857142857142857,
+        0.9865277777777777
+      ],
+      "average_precision": [
+        0.9611129987686876,
+        0.9957972259393948
+      ],
+      "precision": [
+        0.9122807017543859,
+        1.0
+      ],
+      "recall": [
+        0.746031746031746,
+        0.9206349206349206
+      ],
+      "f1": [
+        0.8363636363636363,
+        0.95
+      ]
+    },
+    "limitation": "Conditional on this small benchmark's class mix; not factory generalization uncertainty."
+  },
+  "per_defect": {
+    "broken_large": {
+      "n": 20,
+      "detected": 20,
+      "recall": 1.0,
+      "recall_wilson95": [
+        0.8388748419471806,
+        1.0
+      ]
+    },
+    "broken_small": {
+      "n": 22,
+      "detected": 19,
+      "recall": 0.8636363636363636,
+      "recall_wilson95": [
+        0.6666501283342828,
+        0.9525099628594474
+      ]
+    },
+    "contamination": {
+      "n": 21,
+      "detected": 14,
+      "recall": 0.6666666666666666,
+      "recall_wilson95": [
+        0.4537345197425524,
+        0.8280524739491653
+      ]
+    }
+  },
+  "test_normal_fpr_wilson95": [
+    0.027866481213768224,
+    0.3010336452284873
+  ],
+  "stress_tests": {
+    "brightness_0.8": {
+      "auroc": 0.8376984126984127,
+      "average_precision": 0.9279195900132153,
+      "precision": 0.7590361445783133,
+      "recall": 1.0,
+      "f1": 0.863013698630137,
+      "accuracy": 0.7590361445783133,
+      "false_positive_rate": 1.0,
+      "confusion_matrix": [
+        [
+          0,
+          20
+        ],
+        [
+          0,
+          63
+        ]
+      ],
+      "confusion_labels": [
+        "normal",
+        "defect"
+      ],
+      "threshold": 0.73856190923971
+    },
+    "brightness_1.2": {
+      "auroc": 0.9007936507936508,
+      "average_precision": 0.9691594596050421,
+      "precision": 0.8333333333333334,
+      "recall": 0.9523809523809523,
+      "f1": 0.8888888888888888,
+      "accuracy": 0.8192771084337349,
+      "false_positive_rate": 0.6,
+      "confusion_matrix": [
+        [
+          8,
+          12
+        ],
+        [
+          3,
+          60
+        ]
+      ],
+      "confusion_labels": [
+        "normal",
+        "defect"
+      ],
+      "threshold": 0.73856190923971
+    },
+    "translation_8px": {
+      "auroc": 0.33412698412698405,
+      "average_precision": 0.7021515152388818,
+      "precision": 0.7590361445783133,
+      "recall": 1.0,
+      "f1": 0.863013698630137,
+      "accuracy": 0.7590361445783133,
+      "false_positive_rate": 1.0,
+      "confusion_matrix": [
+        [
+          0,
+          20
+        ],
+        [
+          0,
+          63
+        ]
+      ],
+      "confusion_labels": [
+        "normal",
+        "defect"
+      ],
+      "threshold": 0.73856190923971
+    }
+  },
+  "reference_baseline": {
+    "name": "fit-median standardized residual, pixel 99.5th percentile",
+    "auroc": 0.9388888888888889,
+    "average_precision": 0.9814590017124163,
+    "precision": 1.0,
+    "recall": 0.7619047619047619,
+    "f1": 0.8648648648648649,
+    "accuracy": 0.8192771084337349,
+    "false_positive_rate": 0.0,
+    "confusion_matrix": [
+      [
+        20,
+        0
+      ],
+      [
+        15,
+        48
+      ]
+    ],
+    "confusion_labels": [
+      "normal",
+      "defect"
+    ],
+    "threshold": 5.05698823928833,
+    "purpose": "Independent simple baseline; never used to retune the selected Isolation Forest."
+  },
+  "limitations": [
+    "One fixed-view category; dataset replay is not a live factory validation.",
+    "Official test has only 20 normal images; false-alarm uncertainty is large.",
+    "Test defect prevalence differs from production and changes precision.",
+    "Coarse patch evidence is not validated pixel segmentation.",
+    "Brightness/pose drift can violate calibration assumptions and raise false alarms.",
+    "Isolation Forest scores are ranking evidence, not defect probabilities.",
+    "MVTec AD and benchmark-derived materials are noncommercial (CC BY-NC-SA 4.0)."
+  ]
+}

@@ -1,0 +1,18 @@
+services:
+  linesight:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - linesight-events:/app/runtime
+      - ./data:/app/data:ro
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=32m
+volumes:
+  linesight-events:

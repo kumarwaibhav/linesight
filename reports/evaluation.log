@@ -1,0 +1,38 @@
+Evaluating frozen model ls-a5006862e1ce on 83 official test images.
+Computing 2,000 stratified bootstrap replicates.
+Frozen-model sensitivity probe: brightness_0.8
+Frozen-model sensitivity probe: brightness_1.2
+Frozen-model sensitivity probe: translation_8px
+{
+  "auroc": 0.9468253968253968,
+  "average_precision": 0.9818700739528128,
+  "precision": 0.9636363636363636,
+  "recall": 0.8412698412698413,
+  "f1": 0.8983050847457628,
+  "confusion_matrix": [
+    [
+      18,
+      2
+    ],
+    [
+      10,
+      53
+    ]
+  ],
+  "latency_ms": {
+    "p50": 139.2137889999958,
+    "p95": 324.65972020006564,
+    "mean": 167.49739721685236,
+    "n": 83,
+    "batch_size": 1,
+    "warmup_count": 2,
+    "includes": "RGB resize, reference descriptors and forest score",
+    "excludes": "image decoding, upload, queue, SQLite, HTTP and camera capture",
+    "forest_threads": 1,
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+    "processor": "x86_64",
+    "hard_realtime_validated": false,
+    "features_p50": 69.29191799986256,
+    "forest_p50": 66.82772800013481
+  }
+}

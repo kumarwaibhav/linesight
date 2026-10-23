@@ -1,0 +1,33 @@
+{
+  "dataset": "MVTec AD",
+  "category": "bottle",
+  "seed": 42,
+  "owner": "MVTec Software GmbH and original authors",
+  "project_owner": "Kumar Waibhav Akshat <kwa.waibhav@gmail.com>",
+  "official_source": "https://www.mvtec.com/research-teaching/datasets/mvtec-ad",
+  "license": "CC-BY-NC-SA-4.0",
+  "license_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+  "acquisition": "Pinned public Hugging Face archive mirror of MVTec AD bottle",
+  "mirror_url": "https://huggingface.co/datasets/XavierZXY/MvT-tar/resolve/dc1c313de9de1be8e41fe6818dc43caac8601efa/bottle.tar.xz",
+  "mirror_revision": "dc1c313de9de1be8e41fe6818dc43caac8601efa",
+  "archive_sha256": "726512129cb3b1f47d4f6cd7c7fc9170db7fc209132249c788fec06029cb5dc3",
+  "verification_scope": "Pinned mirror hash and structural counts verified; not independently compared byte-for-byte with an official download.",
+  "image_count": 292,
+  "mask_count": 63,
+  "split_counts": {
+    "test": 83,
+    "fit": 125,
+    "calibration": 42,
+    "tune": 42
+  },
+  "official_counts": {
+    "train/good": 209,
+    "test/good": 20,
+    "test/broken_large": 20,
+    "test/broken_small": 22,
+    "test/contamination": 21
+  },
+  "manifest_sha256": "fed2aee6020cdb09d4442ee4112da344092150e23332e36110e6c75fd006ea12",
+  "duplicate_image_hashes": 0,
+  "split_policy": "Official train normals -> fit125/tune42/calibration42. Official test83 untouched for selection. Tune synthetic variants never leave tune role."
+}

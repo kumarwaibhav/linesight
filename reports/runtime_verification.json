@@ -1,0 +1,22 @@
+{
+  "summary": "Pillow 13.0.0: all 83 frozen test decisions match; maximum score difference 0.",
+  "purpose": "Security patch compatibility, not another selection or model iteration",
+  "runtime_python": "3.12.14",
+  "runtime_pillow": "13.0.0",
+  "original_training_pillow": "12.3.0",
+  "frozen_model_version": "ls-a5006862e1ce",
+  "frozen_artifact_sha256": "a9bf20738513ec6a6e2aa57c7c06d4ae8509070596b83708dd9f8de7b9fc1b87",
+  "model_changed": false,
+  "threshold_changed": false,
+  "test_images_compared": 83,
+  "max_absolute_score_difference": 0.0,
+  "decisions_unchanged": true,
+  "passed": true,
+  "runtime_model_latency_ms": {
+    "p50": 129.81145699995977,
+    "p95": 348.6787124000326,
+    "n": 83,
+    "excludes": "image decoding, HTTP, capture, queueing and SQLite"
+  },
+  "baseline_predictions_sha256": "dcacac4a7c6be5b30f6f7a7548caed84230f51e49c8c3d97e03a27a6ee8ec49b"
+}

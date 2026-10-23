@@ -1,0 +1,14 @@
+{
+  "seed": 42,
+  "alpha": 0.05,
+  "image_size": 192,
+  "patch_size": 16,
+  "candidates": [
+    {"name": "image_if", "representation": "image", "aggregation": "max", "n_estimators": 192, "max_samples": 125},
+    {"name": "patch_if_max", "representation": "patch", "aggregation": "max", "n_estimators": 192, "max_samples": 512},
+    {"name": "patch_if_top4", "representation": "patch", "aggregation": "top4", "n_estimators": 192, "max_samples": 512},
+    {"name": "patch_if_top9", "representation": "patch", "aggregation": "top9", "n_estimators": 192, "max_samples": 512}
+  ],
+  "selection": "highest tune proxy AUROC, then tune proxy recall at normal-only tune threshold, then candidate order",
+  "test_policy": "freeze candidate and calibration threshold before opening test images"
+}

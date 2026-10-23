@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="LineSight visual anomaly inspection. Isolation Forest, real industrial images, transparent decisions. A project by Kumar Waibhav Akshat.">
+  <meta name="theme-color" content="#0b1825">
+  <title>LineSight — Inspection workspace</title>
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script src="/assets/app.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/" aria-label="LineSight home"><img src="/assets/logo.svg" alt="" width="35" height="35"><span>LineSight<span class="brand-dot">.</span></span></a>
+  <div class="workspace-label"><span class="workspace-line"></span>INSPECTION WORKSPACE</div>
+  <div class="topbar-end"><span class="status-pill" id="serviceStatus"><span class="status-dot"></span>Connecting</span><a class="api-link" href="/docs" target="_blank" rel="noopener">API docs <span aria-hidden="true">↗</span></a></div>
+</header>
+<main>
+  <section class="page-heading">
+    <div><p class="eyebrow">VISUAL ANOMALY DETECTION</p><h1>A clearer view of quality.</h1><p class="page-intro">Inspect bottle images with a model that learns what normal looks like.</p></div>
+    <div class="model-chip"><span class="chip-icon" aria-hidden="true">◈</span><div><b>Isolation Forest</b><span>CPU inference · normal-only fitting</span></div></div>
+  </section>
+  <div class="notice hidden" id="notice" role="status" aria-live="polite"></div>
+  <section class="metrics-row" aria-label="Measured benchmark results">
+    <article class="metric"><div class="metric-top"><span>Held-out image AUROC</span><span class="metric-symbol">↗</span></div><b id="metricAuroc">—</b><small>Real MVTec AD bottle test images</small></article>
+    <article class="metric"><div class="metric-top"><span>Defect recall</span><span class="metric-symbol">◎</span></div><b id="metricRecall">—</b><small>At the frozen calibration threshold</small></article>
+    <article class="metric"><div class="metric-top"><span>Retained inspections</span><span class="metric-symbol">▤</span></div><b id="metricInspections">0</b><small>Local history · up to 1,000 records</small></article>
+    <article class="metric"><div class="metric-top"><span>Flagged for review</span><span class="metric-symbol orange">◌</span></div><b id="metricAlerts">0</b><small>Human review required for decisions</small></article>
+  </section>
+  <div class="workbench">
+    <section class="inspection-panel panel">
+      <div class="panel-heading"><div class="section-title"><span class="live-square"></span><h2>Inspection view</h2></div><span class="small-label" id="sourceLabel">NO SOURCE SELECTED</span></div>
+      <div class="source-tabs" role="group" aria-label="Inspection source">
+        <button class="source-tab active" id="tabUpload" type="button"><span aria-hidden="true">↑</span> Upload image</button>
+        <button class="source-tab" id="tabReplay" type="button"><span aria-hidden="true">▷</span> Dataset replay</button>
+        <button class="source-tab" id="tabCamera" type="button"><span aria-hidden="true">▣</span> Camera frames</button>
+      </div>
+      <div class="viewer" id="viewer">
+        <div class="viewer-grid" aria-hidden="true"></div>
+        <div class="view-tag" id="viewTag">FIXED-VIEW INSPECTION</div>
+        <div class="image-stage hidden" id="imageStage"><img id="inspectionImage" alt="Current image being inspected"><video id="cameraVideo" class="hidden" autoplay muted playsinline aria-label="Camera preview"></video><canvas id="heatmapCanvas" aria-label="Coarse patch anomaly evidence overlay"></canvas></div>
+        <div class="empty-state" id="emptyState"><div class="scan-illustration" aria-hidden="true"><div class="scan-corner c1"></div><div class="scan-corner c2"></div><div class="scan-corner c3"></div><div class="scan-corner c4"></div><div class="bottle-shape"><div class="bottle-neck"></div></div><div class="scan-line"></div></div><h3>One image. A closer look.</h3><p>Drop an image here or choose a source below.</p><span>PNG, JPEG or WebP · up to 8 MiB / 4 MP</span></div>
+        <div class="viewer-footer"><span class="viewer-footer-dot"></span><span id="viewerCaption">Ready for your first inspection</span><span class="viewer-dimensions" id="dimensions"></span></div>
+        <div class="processing hidden" id="processing"><span class="spinner"></span>Inspecting image</div>
+      </div>
+      <div class="source-controls" id="uploadControls"><input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp" class="visually-hidden"><button type="button" id="chooseImage" class="button primary"><span aria-hidden="true">＋</span> Choose image</button><span class="control-note">Use a centered bottle view with consistent lighting.</span></div>
+      <div class="source-controls replay-controls hidden" id="replayControls"><label class="visually-hidden" for="sampleSelect">Choose a held-out dataset sample</label><select id="sampleSelect"><option>Loading samples…</option></select><button type="button" id="inspectSample" class="button primary">Inspect sample</button><button type="button" id="startReplay" class="button secondary">Play replay</button><button type="button" id="stopReplay" class="button stop hidden">Stop</button><p class="full-note">Replay uses recorded, held-out MVTec images. It is not a live production feed.</p></div>
+      <div class="source-controls hidden" id="cameraControls"><button type="button" id="startCamera" class="button primary">Start camera</button><button type="button" id="stopCamera" class="button stop hidden">Stop camera</button><span class="control-note">One frame at a time · about every 1.2 seconds</span><p class="full-note">Camera access requires localhost or HTTPS. Align a bottle to the training view; arbitrary scenes are outside the evaluated domain.</p></div>
+      <div class="evidence-toolbar"><label class="switch-label"><input id="showHeatmap" type="checkbox" checked><span class="switch-track"></span>Patch evidence overlay</label><span>Coarse evidence · not segmentation</span></div>
+    </section>
+    <aside class="decision-column">
+      <section class="decision-card panel" aria-live="polite"><div class="panel-heading"><h2>Inspection result</h2><span class="result-dot" id="resultDot"></span></div><div class="result-state" id="resultState"><div class="decision-icon" id="decisionIcon" aria-hidden="true">—</div><p class="eyebrow" id="decisionEyebrow">AWAITING INSPECTION</p><h3 id="decisionTitle">The next image<br>starts here.</h3><p id="decisionDescription">An image score and a fixed decision threshold make every flag inspectable.</p></div><div class="score-row"><span>Anomaly score</span><b id="scoreValue">—</b></div><div class="score-track"><div class="score-fill" id="scoreFill"></div><div class="threshold-mark" id="thresholdMark"></div></div><div class="score-labels"><span>More nominal</span><span>More anomalous</span></div><div class="threshold-row"><span>Calibrated threshold</span><b id="thresholdValue">—</b></div><div class="inference-row"><span>Last model inference</span><b id="latencyValue">—</b></div><p class="result-footnote">Scores are not probabilities. This demo recommends review; it does not control line equipment.</p></section>
+      <section class="model-card panel"><div class="model-card-heading"><span class="forest-icon" aria-hidden="true">⌁</span><div><p class="eyebrow">UNDER THE SURFACE</p><h3>Normal is the reference.</h3></div></div><p>Spatial image features capture local changes. Isolation trees flag patterns that separate quickly from normal training examples.</p><a href="/docs#/" target="_blank" rel="noopener">Explore the inspection API <span aria-hidden="true">↗</span></a><div class="model-version"><span>MODEL VERSION</span><code id="modelVersion">Not loaded</code></div></section>
+    </aside>
+  </div>
+  <section class="history-panel panel"><div class="panel-heading"><div><div class="section-title"><span class="history-icon" aria-hidden="true">≡</span><h2>Inspection history</h2></div><p class="history-subtitle">Local decision log with timestamps, measured inference and model version.</p></div><button type="button" id="refreshEvents" class="button text-button">↻ Refresh</button></div><div class="table-scroll"><table><thead><tr><th>TIME</th><th>SOURCE</th><th>IMAGE / FRAME</th><th>SCORE</th><th>DECISION</th><th>INFERENCE</th></tr></thead><tbody id="eventsBody"><tr><td colspan="6" class="empty-table">No inspections yet. Your first result will appear here.</td></tr></tbody></table></div></section>
+  <section class="scope-note"><span aria-hidden="true">ⓘ</span><p><b>Built for an honest view of the model.</b> The benchmark covers one controlled industrial image category. New cameras, lighting, products and defect rates need independent validation and calibration.</p></section>
+</main>
+<footer><div><a class="footer-brand" href="/">LineSight<span>.</span></a><span>Visual anomaly detection for production lines.</span></div><div>Built by <a href="mailto:kwa.waibhav@gmail.com">Kumar Waibhav Akshat</a><span class="footer-divider">/</span><a href="/docs" target="_blank" rel="noopener">API reference ↗</a></div></footer>
+</body>
+</html>

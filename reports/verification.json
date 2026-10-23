@@ -1,0 +1,56 @@
+{
+  "summary": "50 tests passed; zero failures, errors or skips. Eight notebook cells executed. Browser replay, decisions, history and API reference verified. Runtime audit: zero known advisories in 30 pinned packages.",
+  "tests": {
+    "tests": 50,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "test_environment": "Python3.12.14, Pillow13.0.0",
+  "notebook": {
+    "executed_code_cells": 8,
+    "path": "notebooks/01_linesight_walkthrough.ipynb",
+    "engine": "IPython in-process (network kernel unavailable)"
+  },
+  "runtime_dependency_audit": {
+    "package_count": 30,
+    "known_advisories": 0,
+    "scope": "Pinned runtime dependencies; audit is point-in-time, not a security guarantee"
+  },
+  "static_checks": {
+    "ruff": "passed",
+    "python_compileall": "passed",
+    "javascript_syntax": "passed"
+  },
+  "browser": {
+    "verified": true,
+    "surface": "Managed Chrome desktop preview",
+    "checks": [
+      "Dashboard ready and actual benchmark cards",
+      "Heldout broken_large000 -> score0.7420 and review decision",
+      "good000 -> documented false alarm score0.7633",
+      "Sequential recorded replay reachedgood005 -> nominal score0.6304",
+      "Replay stopped and event history retained",
+      "Heatmap aligns to displayed bottle; visual layout reviewed",
+      "Self-hosted API reference rendered, health requestHTTP200ready"
+    ],
+    "limitations": [
+      "No physical camera capture tested",
+      "Responsive CSS included; no separate mobile viewport session"
+    ],
+    "application_errors_observed": false,
+    "browser_extension_log_note": "Extension metadata errors are unrelated to the application"
+  },
+  "camera_hardware": {
+    "verified": false,
+    "reason": "No physical camera validation available"
+  },
+  "docker": {
+    "verified": false,
+    "reason": "Docker executable unavailable; recipe supplied"
+  },
+  "external_actions": {
+    "github_push": false,
+    "external_publication": false
+  }
+}

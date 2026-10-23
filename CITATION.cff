@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this software, cite it and retain the separate MVTec AD dataset attribution."
+title: "LineSight: Visual anomaly detection for production lines"
+type: software
+version: 1.0.0
+date-released: 2026-10-22
+authors:
+  - family-names: "Akshat"
+    given-names: "Kumar Waibhav"
+    email: "kwa.waibhav@gmail.com"
+license: MIT
+abstract: >-
+  A reproducible industrial visual anomaly detection project using
+  Isolation Forest, normal-reference visual features, independent threshold
+  calibration, and a local image inspection application.
+keywords:
+  - isolation-forest
+  - anomaly-detection
+  - computer-vision
+  - industrial-inspection

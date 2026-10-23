@@ -1,0 +1,98 @@
+{
+  "selected": {
+    "candidate": "patch_if_max",
+    "config": {
+      "name": "patch_if_max",
+      "representation": "patch",
+      "aggregation": "max",
+      "n_estimators": 192,
+      "max_samples": 512
+    },
+    "proxy_auroc": 0.9211073318216176,
+    "proxy_recall": 0.6666666666666666,
+    "tune_normal_false_alarm_rate": 0.023809523809523808,
+    "tune_threshold": 0.7647896250492011,
+    "development_seconds": 7.755,
+    "selection_scope": "tune normals and tune-derived synthetic proxy defects only",
+    "real_test_used": false
+  },
+  "candidates": [
+    {
+      "candidate": "image_if",
+      "config": {
+        "name": "image_if",
+        "representation": "image",
+        "aggregation": "max",
+        "n_estimators": 192,
+        "max_samples": 125
+      },
+      "proxy_auroc": 0.8151927437641724,
+      "proxy_recall": 0.09523809523809523,
+      "tune_normal_false_alarm_rate": 0.023809523809523808,
+      "tune_threshold": 0.6310721743542663,
+      "development_seconds": 11.354,
+      "selection_scope": "tune normals and tune-derived synthetic proxy defects only",
+      "real_test_used": false
+    },
+    {
+      "candidate": "patch_if_max",
+      "config": {
+        "name": "patch_if_max",
+        "representation": "patch",
+        "aggregation": "max",
+        "n_estimators": 192,
+        "max_samples": 512
+      },
+      "proxy_auroc": 0.9211073318216176,
+      "proxy_recall": 0.6666666666666666,
+      "tune_normal_false_alarm_rate": 0.023809523809523808,
+      "tune_threshold": 0.7647896250492011,
+      "development_seconds": 7.755,
+      "selection_scope": "tune normals and tune-derived synthetic proxy defects only",
+      "real_test_used": false
+    },
+    {
+      "candidate": "patch_if_top4",
+      "config": {
+        "name": "patch_if_top4",
+        "representation": "patch",
+        "aggregation": "top4",
+        "n_estimators": 192,
+        "max_samples": 512
+      },
+      "proxy_auroc": 0.86432350718065,
+      "proxy_recall": 0.2222222222222222,
+      "tune_normal_false_alarm_rate": 0.023809523809523808,
+      "tune_threshold": 0.7541124975018518,
+      "development_seconds": 0.355,
+      "selection_scope": "tune normals and tune-derived synthetic proxy defects only",
+      "real_test_used": false
+    },
+    {
+      "candidate": "patch_if_top9",
+      "config": {
+        "name": "patch_if_top9",
+        "representation": "patch",
+        "aggregation": "top9",
+        "n_estimators": 192,
+        "max_samples": 512
+      },
+      "proxy_auroc": 0.8053665910808768,
+      "proxy_recall": 0.07936507936507936,
+      "tune_normal_false_alarm_rate": 0.023809523809523808,
+      "tune_threshold": 0.7124249500732843,
+      "development_seconds": 0.389,
+      "selection_scope": "tune normals and tune-derived synthetic proxy defects only",
+      "real_test_used": false
+    }
+  ],
+  "tune_normal_count": 42,
+  "synthetic_proxy_count": 126,
+  "proxy_types": [
+    "scratch",
+    "blob",
+    "inverted_patch"
+  ],
+  "synthetic_seed_rule": "42 + 1000 * tune_index + kind",
+  "warning": "Synthetic proxy quality does not establish real-defect performance."
+}

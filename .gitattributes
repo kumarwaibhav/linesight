@@ -1,0 +1,8 @@
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.pdf binary
+*.joblib binary
+*.svg text
+# Audit digests bind the exact CSV bytes; preserve their original line endings.
+*.csv -text whitespace=cr-at-eol
