@@ -1,0 +1,11 @@
+.git
+.venv
+.preview-deps
+__pycache__
+.pytest_cache
+.ruff_cache
+data/raw
+data/cache
+logs
+runtime
+*.zip

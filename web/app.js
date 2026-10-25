@@ -1,7 +1,7 @@
 /* LineSight inspection workspace. Kumar Waibhav Akshat <kwa.waibhav@gmail.com>. */
 "use strict";
 const $ = (id) => document.getElementById(id);
-const state = {mode: "upload", ready: false, busy: false, samples: [], stream: null, running: false, generation: 0, frame: 0, objectUrl: null, heatmap: null};
+const state = {mode: "upload", ready: false, busy: false, samples: [], stream: null, running: false, generation: 0, frame: 0, objectUrl: null, heatmap: null, maxImageBytes: 8 * 1024 * 1024};
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const percent = (value) => Number.isFinite(Number(value)) ? `${(Number(value) * 100).toFixed(1)}%` : "—";
 function showNotice(message, isError = true) {
@@ -157,7 +157,7 @@ async function inspectBlob(blob, filename, sourceId, frameId, caption, generatio
 async function uploadFile(file) {
   if (!file || state.busy) return;
   selectMode("upload");
-  if (file.size > 8 * 1024 * 1024) return showNotice("Choose an image smaller than 8 MiB.");
+  if (file.size > state.maxImageBytes) return showNotice(`Choose an image no larger than ${state.maxImageBytes / (1024 * 1024)} MiB.`);
   if (!["image/png", "image/jpeg", "image/webp"].includes(file.type)) return showNotice("Choose a PNG, JPEG, or WebP image.");
   try {
     await previewBlob(file);
@@ -263,6 +263,12 @@ async function initialize() {
   try {
     const [health, model, metrics, sampleData] = await Promise.all([api("/api/health"), api("/api/model"), api("/api/metrics"), api("/api/samples")]);
     state.ready = health.model_loaded;
+    if (Number.isSafeInteger(model.max_image_bytes) && model.max_image_bytes > 0) state.maxImageBytes = model.max_image_bytes;
+    $("uploadLimits").textContent = `PNG, JPEG or WebP · up to ${state.maxImageBytes / (1024 * 1024)} MiB / 4 MP`;
+    if (model.history_mode === "temporary") {
+      $("historyNote").textContent = "Temporary demo history. Records may reset or differ between requests.";
+      $("historyMetricNote").textContent = "Temporary demo history · up to 1,000 records per instance";
+    }
     const status = $("serviceStatus");
     status.classList.toggle("ready", state.ready); status.classList.toggle("unready", !state.ready);
     const dot = document.createElement("span"); dot.className = "status-dot";

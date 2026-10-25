@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "fastapi",
+  "buildCommand": "python scripts/vercel_build.py",
+  "functions": {
+    "app.py": {
+      "maxDuration": 60,
+      "includeFiles": "{src/**,web/**,artifacts/**,reports/metrics.json,data/manifest.csv,data/raw/bottle/test/**}",
+      "excludeFiles": "{tests/**,notebooks/**,docs/**,logs/**,runtime/**,data/cache/**,data/raw/bottle/train/**,data/raw/bottle/ground_truth/**,reports/figures/**,**/__pycache__/**,**/*.pyc}"
+    }
+  }
+}

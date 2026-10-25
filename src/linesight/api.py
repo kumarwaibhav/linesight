@@ -33,7 +33,10 @@ from starlette.concurrency import run_in_threadpool
 
 LOGGER = logging.getLogger("linesight.api")
 OWNER = {"name": "Kumar Waibhav Akshat", "email": "kwa.waibhav@gmail.com"}
-MAX_IMAGE_BYTES = 8 * 1024 * 1024
+MAX_IMAGE_BYTES = int(os.environ.get("LINESIGHT_MAX_IMAGE_BYTES", str(8 * 1024 * 1024)))
+if not 0 < MAX_IMAGE_BYTES <= 8 * 1024 * 1024:
+    raise ValueError("LINESIGHT_MAX_IMAGE_BYTES must be between 1 and 8388608.")
+IMAGE_LIMIT_LABEL = f"{MAX_IMAGE_BYTES / (1024 * 1024):g} MiB"
 MAX_REQUEST_BYTES = MAX_IMAGE_BYTES + 64 * 1024
 MAX_IMAGE_PIXELS = 4_000_000
 MAX_IMAGE_EDGE = 4096
@@ -60,7 +63,7 @@ class InspectionBodyLimit:
                 if int(raw_length) < 0:
                     raise ValueError
                 if int(raw_length) > self.max_bytes:
-                    await JSONResponse({"detail": "Upload exceeds the 8 MiB image limit."}, 413)(scope, receive, send)
+                    await JSONResponse({"detail": f"Upload exceeds the {IMAGE_LIMIT_LABEL} image limit."}, 413)(scope, receive, send)
                     return
             except ValueError:
                 await JSONResponse({"detail": "Invalid Content-Length."}, 400)(scope, receive, send)
@@ -82,7 +85,7 @@ class InspectionBodyLimit:
                 body = message.get("body", b"")
                 total += len(body)
                 if total > self.max_bytes:
-                    await JSONResponse({"detail": "Upload exceeds the 8 MiB image limit."}, 413)(scope, receive, send)
+                    await JSONResponse({"detail": f"Upload exceeds the {IMAGE_LIMIT_LABEL} image limit."}, 413)(scope, receive, send)
                     return
                 chunks.append(body)
                 if not message.get("more_body", False):
@@ -176,7 +179,7 @@ def decode_image(raw: bytes) -> Image.Image:
     if not raw:
         raise HTTPException(400, "The image is empty.")
     if len(raw) > MAX_IMAGE_BYTES:
-        raise HTTPException(413, "Image exceeds 8 MiB.")
+        raise HTTPException(413, f"Image exceeds {IMAGE_LIMIT_LABEL}.")
     try:
         with warnings.catch_warnings():
             warnings.simplefilter("error", Image.DecompressionBombWarning)
@@ -253,6 +256,8 @@ def create_app(
             metadata = {}
         return {
             "name": "LineSight", "owner": OWNER, "ready": loaded_detector is not None,
+            "max_image_bytes": MAX_IMAGE_BYTES,
+            "history_mode": os.environ.get("LINESIGHT_HISTORY_MODE", "local"),
             "algorithm": "Isolation Forest", "category": "MVTec AD · bottle",
             "model_version": getattr(loaded_detector, "model_version", metadata.get("model_version")),
             "threshold": getattr(loaded_detector, "threshold", metadata.get("threshold")),
