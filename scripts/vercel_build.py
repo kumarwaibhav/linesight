@@ -16,6 +16,8 @@ ROOT = Path(__file__).resolve().parents[1]
 def main() -> None:
     if not (ROOT / "artifacts" / "linesight.joblib").is_file():
         raise SystemExit("Missing artifacts/linesight.joblib. Commit the trained artifact before deploying.")
+    subprocess.run(["npm", "ci"], cwd=ROOT, check=True)
+    subprocess.run(["npm", "run", "build"], cwd=ROOT, check=True)
     if os.environ.get("LINESIGHT_INCLUDE_SAMPLES", "1") != "0":
         subprocess.run([sys.executable, str(ROOT / "scripts" / "download_data.py")], cwd=ROOT, check=True)
         count = len(list((ROOT / "data" / "raw" / "bottle" / "test").glob("*/*.png")))

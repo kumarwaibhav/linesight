@@ -11,6 +11,7 @@ def test_vercel_entrypoint_loads_model_and_uses_temporary_storage(tmp_path):
                LINESIGHT_DB="/nonexistent/readonly/events.sqlite3")
     code = '''
 import io
+import re
 from pathlib import Path
 import tempfile
 from fastapi.testclient import TestClient
@@ -21,8 +22,13 @@ with TestClient(app) as client:
     assert app.state.root == ROOT
     assert app.state.database.parent == Path(tempfile.gettempdir()) / "linesight"
     assert client.get("/api/health").json()["model_loaded"] is True
-    assert client.get("/").status_code == 200
-    assert client.get("/assets/app.js").status_code == 200
+    dashboard = client.get("/")
+    assert dashboard.status_code == 200
+    script_paths = re.findall(r'<script[^>]+src="([^"]+)"', dashboard.text)
+    style_paths = re.findall(r'<link[^>]+href="([^\"]+[.]css)"', dashboard.text)
+    assert script_paths and all(client.get(path).status_code == 200 for path in script_paths)
+    assert style_paths and all(client.get(path).status_code == 200 for path in style_paths)
+    assert client.get("/assets/logo.svg").status_code == 200
     assert client.get("/docs").status_code == 200
     model = client.get("/api/model").json()
     assert model["max_image_bytes"] == 4 * 1024 * 1024

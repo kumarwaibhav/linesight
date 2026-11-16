@@ -238,7 +238,7 @@ def create_app(
         response.headers["Permissions-Policy"] = "camera=(self), microphone=(), geolocation=()"
         response.headers["X-Frame-Options"] = "DENY"
         response.headers["Content-Security-Policy"] = (
-            "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; "
+            "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; "
             "connect-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
         )
         return response
@@ -338,9 +338,11 @@ def create_app(
         await run_in_threadpool(_save_event, database, event)
         return {**result, **event, "heatmap_note": "Coarse patch evidence, not a validated segmentation mask."}
 
-    web_root = project_root / "web"
+    web_root = project_root / "web" / "dist"
     if web_root.is_dir():
-        app.mount("/assets", StaticFiles(directory=web_root), name="assets")
+        assets_root = web_root / "assets"
+        if assets_root.is_dir():
+            app.mount("/assets", StaticFiles(directory=assets_root), name="assets")
 
         @app.get("/docs", include_in_schema=False)
         def api_reference() -> FileResponse:

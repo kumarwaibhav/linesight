@@ -53,9 +53,9 @@ A simple normal-reference residual baseline achieved AUROC **0.9389** and recall
 [Full evaluation](reports/evaluation.md) · [Machine-readable metrics](reports/metrics.json) · [Every test prediction](reports/test_predictions.csv) · [Score distribution + confusion matrix](reports/figures/scores_confusion.png) · [Development + stress results](reports/figures/development_robustness.png) · [Defect coverage + latency](reports/figures/defects_latency.png) · [Image evidence + dataset annotations](reports/figures/inspection_examples.png)
 <!-- RESULTS_END -->
 
-## Run the inspection console
+## Run the inspection workspace
 
-Use **Python 3.11–3.13**. From the repository root:
+Use **Python 3.12** and **Node.js 22**. The React/Vite workspace talks to the unchanged FastAPI inspection service. From the repository root:
 
 ```bash
 python -m venv .venv
@@ -64,19 +64,24 @@ source .venv/bin/activate
 # Windows PowerShell: .venv\Scripts\Activate.ps1
 python -m pip install -r requirements.lock
 python -m pip install -e '.[dev]'
+npm ci
 python scripts/download_data.py
 python scripts/train.py --root .
 python scripts/evaluate.py --root .
-python scripts/serve.py
+npm run dev
 ```
 
-Open **http://127.0.0.1:8000**. Permit camera access only when using camera inspection. Browsers generally require localhost or HTTPS for camera access.
+Open **http://127.0.0.1:4173**. This starts the Vite frontend and the API service on port 8000. Permit camera access only when using camera inspection. Browsers generally require localhost or HTTPS for camera access.
+
+For a static production bundle, run `npm run build` and then `python scripts/serve.py`; FastAPI serves the compiled frontend at port 8000. The deploy build also compiles the frontend before packaging the API.
 
 A supplied trained artifact can be used immediately after dependency installation; the downloader is needed for benchmark replay and full reproduction. Dataset access requires agreeing to its **noncommercial** terms; read the [dataset card](docs/dataset-card.md) before downloading. The supplied [`requirements.lock`](requirements.lock) records the runtime versions used for this handoff.
 
-Run the automated checks:
+Run the frontend checks and automated Python suite:
 
 ```bash
+npm run typecheck
+npm run build
 python -m pytest
 ```
 
